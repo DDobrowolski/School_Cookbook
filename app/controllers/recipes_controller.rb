@@ -4,7 +4,11 @@ class RecipesController < ApplicationController
   skip_before_action :verify_authenticity_token
   respond_to :xml
   def index
-    @recipes = Recipe.all
+    if params[:q]
+      @recipes = Recipe.where('name LIKE :q', q: "%#{params[:q]}%")
+    else
+      @recipes = Recipe.all
+    end
     render xml: @recipes.as_json, root: 'recipes'
   end
 
