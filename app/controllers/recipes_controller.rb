@@ -33,8 +33,18 @@ class RecipesController < ApplicationController
 
   def create
     params =  Nokogiri::XML(request.body.read)
-    hash_params = Hash.from_xml(params.xpath('//object')[0].to_s)
-    @recipe = Recipe.new(hash_params['object'])
+    hash_params = Hash.from_xml(params.xpath('//recipe')[0].to_s)['recipe']
+    ingredients = hash_params['ingredients']
+    new_ingredients = []
+    ingredients.each do |i|
+      ingredient = Ingredient.create(i.except('measure_unit', 'ingredient_type'))
+      ingredient.ingredient_type = IngredientType.create(i['ingredient_type'])
+      ingredient.measure_unit = MeasureUnit.create(i['measure_unit'])
+      new_ingredients << ingredient
+    end
+    new_recipe = hash_params.except('ingredients')
+    @recipe = Recipe.new(new_recipe)
+    @recipe.ingredients << new_ingredients
     if @recipe.save
       render json: @recipe
     else
@@ -43,7 +53,14 @@ class RecipesController < ApplicationController
   end
 
   def validate
-    errors = XmlValidator.validate(File.read('app/xml_schemas/recipe.xsd'), request.body.read)
-    render json: errors.to_json
+    body = request.body.read
+    errors = XmlValidator.validate(File.read('app/xml_schemas/recipe.xsd'), body)
+    if errors[:errors].empty?
+      params =  Nokogiri::XML(body)
+      hash_params = Hash.from_xml(params.xpath('//recipe')[0].to_s)
+      render json: hash_params.to_json
+    else
+      render json: errors.to_json
+    end
   end
 end
