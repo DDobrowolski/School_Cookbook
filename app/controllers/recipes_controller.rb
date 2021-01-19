@@ -9,6 +9,12 @@ class RecipesController < ApplicationController
     else
       @recipes = Recipe.all
     end
+    if params[:sort_type] and params[:sort_by]
+      @recipes = @recipes.order("#{params[:sort_by]} #{params[:sort_type]}")
+    end
+    if params[:page] and params[:page_len]
+      @recipes = @recipes.paginate(page: params[:page], per_page: params[:page_len])
+    end
     render xml: @recipes.as_json, root: 'recipes'
   end
 
