@@ -8,7 +8,7 @@
 
 Recipe.create([
   {name: 'Naleśniki', description: 'Idealny przepis na pożywne śniadanie.', preparation_method: 'Mąkę wsypać do miski, dodać jajka, mleko, wodę i sól. Zmiksować na gładkie ciasto. Dodać roztopione masło lub olej roślinny i razem zmiksować (lub wykorzystać tłuszcz do smarowania patelni przed smażeniem każdego naleśnika).
-  Naleśniki smażyć na dobrze rozgrzanej patelni z cienkim dnem np. naleśnikowej. Przewrócić na drugą stronę gdy spód naleśnika będzie już ładnie zrumieniony i ścięty.'}, {name: 'Tort', description: 'urodzinowy', preparation_method: 'Wez i zjedz.'},
+  Naleśniki smażyć na dobrze rozgrzanej patelni z cienkim dnem np. naleśnikowej. Przewrócić na drugą stronę gdy spód naleśnika będzie już ładnie zrumieniony i ścięty.'}, {name: 'Tort', description: 'urodzinowy', preparation_method: 'Idealny na urodzinki. '},
   {name: 'Kanapka z dżemem', description: 'Idealny przepis na drugie śniadanie.', preparation_method: 'Posmarować jedną z kromek chleba dżemem.'}
   ])
 
