@@ -64,4 +64,16 @@ class RecipesController < ApplicationController
       render json: errors.to_json
     end
   end
+
+  def destroy
+    respond_to :json
+    if params['ids'].respond_to?('each')
+      params['ids'].each do |r|
+        Recipe.destroy(r)
+      end
+    else
+      Recipe.destroy(params['ids'])
+    end
+    render json: {log: 'Success'}
+  end
 end
